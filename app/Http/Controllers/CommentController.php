@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CommentRequest;
-use App\Models\User;
 use App\Models\Comment;
-use App\Services\HtmlPurifierService\HtmlPurifierService;
+use App\Services\Comment\CommentService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class CommentController extends Controller
 {
@@ -31,25 +28,9 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CommentRequest $request, HtmlPurifierService $htmlPurifierService): Comment
+    public function store(CommentRequest $request, CommentService $commentService): Comment
     {
-        Log::info($request);
-        $user = User::firstOrCreate(
-            ['email' => $request->input('email'), 'password' => 'anonymous'],
-            ['name' => $request->input('name')]
-        );//ser->save();
-        Log::info($user);
-        $filteredText = $htmlPurifierService->sanitizeComment($request->input('text'));
-        $comment = new Comment([
-            'homepage' => $request->input('homepage'),
-            'text' => $filteredText,'parent_id' => $request->input('parent_id')
-        ]);
-
-        $user->comments()->save($comment);
-
-        $comment->load('user','replies');
-
-        return $comment;
+        return $commentService->store($request);
     }
 
     /**

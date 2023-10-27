@@ -1,8 +1,10 @@
 <template>
-    <div :style="indent">
-        <p>{{ comment.id }}</p>
+    <div :style="indent" class="m-3">
+        <div>
+            <b>{{ comment.user.name }}</b> {{ formattedDate }}
+        </div>
         <p>{{ comment.text }}</p>
-        <button v-if="!comment.showReplyForm" @click="toggleReplyForm">Answer</button>
+        <button v-if="!comment.showReplyForm" @click="toggleReplyForm">Ответить</button>
         <comment-form
             v-if="comment.showReplyForm"
             :key="comment.id"
@@ -31,6 +33,17 @@ export default {
     computed: {
         indent() {
             return { transform: `translate(${this.depth * 15}px)` }
+        },
+        formattedDate() {
+            const dateTime = this.comment.created_at;
+            const date = new Date(dateTime);
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear().toString().slice(-2);
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+
+            return `${day}.${month}.${year} в ${hours}.${minutes}`;
         }
     },
     props: {

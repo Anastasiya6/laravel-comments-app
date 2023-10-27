@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\HtmlPurifierService;
+namespace App\Services\HtmlPurifier;
 
 use HTMLPurifier;
 use HTMLPurifier_Config;

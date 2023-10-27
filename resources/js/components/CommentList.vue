@@ -1,8 +1,6 @@
 <template>
-    <div>
-        <comment-form
-            @comment-added="updateComments"
-        ></comment-form>
+    <div class="m-3">
+        <h2>Комментарии</h2>
         <comment
             :index="index"
             v-for="(comment,index) in comments"
@@ -11,8 +9,10 @@
             @comment-added="updateComments"
             @toggle-reply-form="toggleReplyForm"
             :depth="0"
-            :class="{ 'comment': comment.parent_id === 0, 'reply': comment.parent_id !== 0 }"
         ></comment>
+        <comment-form
+            @comment-added="updateComments"
+        ></comment-form>
     </div>
 </template>
 

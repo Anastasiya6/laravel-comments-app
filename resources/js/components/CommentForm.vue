@@ -1,5 +1,6 @@
 <template>
-    <form @submit.prevent="addComment">
+    <form @submit.prevent="addComment" class="m-3 w-50">
+        <h5>Отправить комментарий</h5>
         <div class="mb-3">
             <label for="name" class="form-label">User name:</label>
             <input class="form-control" type="text" id="name" v-model="newComment.name" maxlength="255" required />
@@ -16,7 +17,9 @@
             <label for="text" class="form-label">Text:</label>
             <textarea class="form-control" id="text" v-model="newComment.text" required></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Add Comment</button>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </div>
     </form>
 </template>
 
