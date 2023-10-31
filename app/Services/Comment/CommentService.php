@@ -11,21 +11,24 @@ use Illuminate\Http\Request;
 
 class CommentService
 {
+    public function __construct(protected HtmlPurifierService $htmlPurifierService)
+    {
+    }
+
     /**
      * Store a new comment.
      *
      * @param  Request $request
-     * @param  HtmlPurifierService $htmlPurifierService
      * @return Comment
      */
-    public function store(Request $request, HtmlPurifierService $htmlPurifierService): Comment
+    public function store(Request $request): Comment
     {
         $user = User::firstOrCreate(
             ['email' => $request->input('email'), 'password' => 'anonymous'],
             ['name' => $request->input('name')]
         );
 
-        $filteredText = $htmlPurifierService->sanitizeComment($request->input('text'));
+        $filteredText = $this->htmlPurifierService->sanitizeComment($request->input('text'));
 
         $comment = new Comment([
             'homepage' => $request->input('homepage'),
